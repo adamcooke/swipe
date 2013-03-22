@@ -229,38 +229,11 @@ Swipe.App.TicketView.runBoundEvents 'event', view, otherArgs...
 Swipe is bundled with a number of external/3rd party utilities which are useful in
 pretty much every application.
 
-* jQuery - required for Swipe operation
-* Handlebars - used for tempting
-* Moment.js - time library
-* Mousetrap - keyboard shortcuts
-* MD5 - generating MD5 hashes from strings
-
-## Application Structure
-
-A Swipe application is designed to run from a single HTML page. During the 
-development of the application Swipe suggests a directory layout which is 
-optimised for ease of use. The following is an example application structure
-for a complete app.
-
-```
-css
-img
-js
-js/layout
-js/vendor
-js/views
-templates
-```
-
-Within your application, there are a number of different suggested files. Which
-should exist:
-
-```
-js/application.coffee
-js/i18n.coffee
-js/layout/default.coffee
-js/routes.coffee
-```
-
-If you use this structure, you should compile it together into a single file before
-production use.
+* [jQuery](http://jquery.com/)
+* [Handlebars](http://handlebarsjs.com/)
+* [Moment.js](http://momentjs.com/)
+* [Mousetrap](http://craig.is/killing/mice)
+* MD5
+* [AutoComplete](http://www.devbridge.com/projects/autocomplete/jquery/)
+* [AutoLink](https://github.com/bryanwoods/autolink-js)
+* [AutoResize](https://github.com/jackmoore/autosize)
