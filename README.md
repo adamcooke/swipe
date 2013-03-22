@@ -67,8 +67,10 @@ main `application.coffee` file.
 
 ```coffee
 Swipe.initializeApp ()->
-  # Load the default layout for the application
-  Swipe.App.DefaultLayout.load()
+  $(document).ready ->
+    # Load the default layout for the application when the DOM has
+    # been loaded.
+    Swipe.App.DefaultLayout.load()
 ```
 
 If you want to change layout within your application, you can do so by just loading in
