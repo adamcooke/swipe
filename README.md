@@ -160,6 +160,70 @@ Swipe.Store.get 'hello'               #=> 'world'
 Swipe.Store.delete 'hello'            #=> true
 ```
 
+## Exploring Views & Layouts
+
+Layouts & Views implement a great way to manage behaviours & keyboard shortcut as well
+as hooking into the view lifecycle.
+
+### Keyboard Shortcuts
+
+Keyboard shortcuts are vital for modern HTML5 applications and Swipe treats them well and
+provides a nice interface for managing which keyboard shortcuts are available and when.
+
+Keyboard shortcuts can be assigned to views and they will be only be active when the
+view is visible.
+
+```coffee
+Swipe.App.TicketView.addKeyboardShortcut 'ctrl+s', {}, ->
+  alert "Subject is #{this.properties.subject}"
+```
+
+### Behaviours
+
+It's more than likely that you'll need to attach functions to various events which occur
+within your views. For example, you may wish to display an alert box when a link is clicked,
+handle a form submission or something else entirely.
+
+Behaviours allow you to automatically bind functions to elements inserted into your view
+when it is loaded.
+
+```coffee
+Swipe.App.TicketView.addBehaviour 'click', 'ul.list li a', (view)->
+  alert "You clicked on a link in the list!"
+  
+Swipe.App.TicketView.addBehaviour 'submit', 'form', (view)->
+  form = $(this).attr 'href'
+  view.submitFormTo form
+```
+
+### View Lifecycle
+
+There are number of built-in hooks which you can attach methods to. The primary reason for
+this is that it allows you to extend your view from an alternative file.
+
+The main hooks which you may wish to use are:
+
+* `load` - called when the view is loaded for the first time (layouts & views)
+* `unload` - called when the view is removed from the DOM (layouts & views)
+* `focus` - called when an existing view is brought into the foreground (views only)
+* `blur` - called when a view is hidden (views only)
+
+```coffee
+Swipe.App.TicketView.addBindEvent 'load', ->
+  console.log "I have been loaded!"
+
+Swipe.App.TicketView.addBindEvent 'focus', ->
+  console.log "I have just been brought into focus. I am #{this}!"
+```
+
+If you have a complicated view, you can trigger your own hooks. You can add hooks for
+any "event" that you see fit. To trigger all functions currently bound to an event, you
+can execute:
+
+```coffee
+Swipe.App.TicketView.runBoundEvents 'event', view, otherArgs...
+```
+
 ## Bundled Utilities
 
 Swipe is bundled with a number of external/3rd party utilities which are useful in
@@ -200,3 +264,5 @@ js/routes.coffee
 
 If you use this structure, you should compile it together into a single file before
 production use.
+
+#
