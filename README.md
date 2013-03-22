@@ -13,7 +13,7 @@ out there for you to look at it.
 
 **If you prefer to jump right in, I would recommend taking a look at the examples
 in this repo. The example 'app.coffee' and 'index.html' are well commented and
-show how to get up and running quite easily.**
+show how to get up and running quite easily.** [View a live example?](http://adamcooke.github.com/swipe)
 
 Please also note, we are still working on this and it will be developed constantly
 over the next few months and should not be considered stable or feature-locked.
@@ -264,5 +264,3 @@ js/routes.coffee
 
 If you use this structure, you should compile it together into a single file before
 production use.
-
-#
