@@ -84,6 +84,30 @@
       }
     };
 
+    ContactView.prototype.setNameToRandomColour = function() {
+      var colours;
+      colours = ['red', 'blue', 'green', 'orange', 'purple', 'yellow'];
+      return $('h3', this.domObject).css('color', colours[Math.floor(Math.random() * colours.length)]);
+    };
+
+    ContactView.addBindEvent('load', function() {
+      return this.setNameToRandomColour();
+    });
+
+    ContactView.addKeyboardShortcut('t', {}, function() {
+      var currentSize, name;
+      name = $('h3', this.domObject);
+      currentSize = parseInt(name.css('font-size'));
+      if (currentSize > 60) {
+        return true;
+      }
+      return name.css('font-size', currentSize + 2);
+    });
+
+    ContactView.addBehaviour('click', 'h3', function(view) {
+      return alert("This contact's name is " + view.properties.name);
+    });
+
     return ContactView;
 
   })(Swipe.View);

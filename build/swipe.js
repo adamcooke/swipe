@@ -3104,7 +3104,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       }
       this.globalHBVars.i18n = Swipe.I18n;
       if (this.initializeAppFunc) {
-        this.initializeAppFunc.call();
+        this.initializeAppFunc.call(this.App);
       }
       return Swipe.Router.start();
     },

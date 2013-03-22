@@ -60,7 +60,37 @@ class Swipe.App.ContactView extends Swipe.View
       # and redirect back to the default route (list page).
       alert 'No contact found!'
       Swipe.Router.goTo 'default'
-      
+  
+  # This method will set the contact's name to a random colour by updating the
+  # DOM as appropriate. This doesn't really serve any practical purpose but we
+  # are using it to illustrate lifecycle hooks next.
+  #
+  # Note the use of 'this.domObject'. Any changes you make to the document must
+  # be scoped within this object otherwise you may make changes to a hidden view
+  # as well as your visible view.
+  setNameToRandomColour: ->
+    colours = ['red', 'blue', 'green', 'orange', 'purple', 'yellow']
+    $('h3', this.domObject).css('color', colours[Math.floor(Math.random() * colours.length)])
+  
+  # This next method illustrates how you can hook into the view's lifecycle. 
+  # When the contact is first loaded, we are going to set the name of the contact
+  # to a random colour.
+  this.addBindEvent 'load', -> this.setNameToRandomColour()
+  
+  # We will now illustrae keyboard shortcuts. We will create a keyboard shortcut
+  # that means that whenver you press 't', it will enlarge the contact's name each
+  # time it is pressed
+  this.addKeyboardShortcut 't', {}, ->
+    name = $ 'h3', this.domObject
+    currentSize = parseInt(name.css('font-size'))
+    return true if currentSize > 60
+    name.css 'font-size', currentSize + 2
+  
+  # We will now demonstrate the ability to bind events to objects inserted 
+  # into the page. This will setup a behaviour which means that whenever a 
+  # contact's name is clicked on it will display an alert message.
+  this.addBehaviour 'click', 'h3', (view)->
+    alert "This contact's name is #{view.properties.name}"
 
 # Now, we need to be able to route to our newly defined views from the browser.
 # We can always load our list views using the console however this isn't really
