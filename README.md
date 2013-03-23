@@ -112,7 +112,7 @@ Swipe.App.TicketView.load id, (completeFunction)->
   
   # Setting the pageTitle variable will ensure the page's <title>
   # attribute is set as appropriate when the view is visible.
-  this.pageTitle              = this.properties.subject
+  this.setPageTitle this.properties.subject
   
   # We must remember to execute the completeFunction function when
   # we're finishing loading.

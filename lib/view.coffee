@@ -74,6 +74,14 @@ class Swipe.View extends Swipe.ViewObject
       Swipe.Router.setURL newURL
     this.url = newURL
   
+  # Set's the page title for the page and updates the current page title if
+  # needed.
+  setPageTitle: (newTitle)->
+    if newTitle != this.pageTitle && this.domObject? && this.domObject.is(':visible')
+      Swipe.Page.setTitle newTitle
+    this.pageTitle = newTitle
+    
+  
   # This object will load a new class and return the new view after adding it
   # to the stack. All views (regardless of class) are in the same stack.
   @stack = new Array
