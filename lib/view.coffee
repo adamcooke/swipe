@@ -5,6 +5,10 @@ class Swipe.View extends Swipe.ViewObject
   # automatically or can be passed when initializing the view.
   id: null
   
+  # This stores the view title which will be set whenever the view is brought
+  # into focus. This should be set when the view is loaded.
+  pageTitle: 'Untitled View'
+  
   # This parameter will store the URL associated with this view. It will be
   # taken automatically from the current URL when the view is *loaded* and
   # replaced into the URL when the view is brought back into focus.
@@ -18,6 +22,7 @@ class Swipe.View extends Swipe.ViewObject
   # When loading a view, all visible views should be hidden.
   onLoad: ->
     this.url = Swipe.Router.currentURL()
+    Swipe.Page.setTitle(this.pageTitle)
     this.constructor.blurAll()
   
   # When a view is unloaded, remove it from the stack's array and invoke the
@@ -32,8 +37,9 @@ class Swipe.View extends Swipe.ViewObject
   focus: ->
     if this.domObject.is ':hidden'
       this.constructor.blurAll()
+      Swipe.Page.setTitle(this.pageTitle)
+      Swipe.Router.setURL(this.url)
       this.domObject.show()
-      Swipe.Page.setURL(this.url)
       this.onFocus()
       this.constructor.runBoundEvents 'focus', this
       this.constructor.runBoundEvents 'visible', this
@@ -51,7 +57,6 @@ class Swipe.View extends Swipe.ViewObject
       this.constructor.runBoundEvents 'blur', this
       this.constructor.runBoundEvents 'hidden', this
       this.constructor.unbindKeyboardShortcuts this
-      
       if Swipe.Router.currentURL() == this.url
         Swipe.Router.goTo('default')
       true
@@ -72,6 +77,11 @@ class Swipe.View extends Swipe.ViewObject
   # This object will load a new class and return the new view after adding it
   # to the stack. All views (regardless of class) are in the same stack.
   @stack = new Array
+  
+  # Return the active view from the stack
+  @activeView = ->
+    visibleViews = this.stack.filter (view)-> view.domObject.is(':visible')
+    visibleViews[0]
   
   # Initializes a new view and runs the load method to get thigns started. It 
   # must be passed the ID for the view. It will also run a given function before

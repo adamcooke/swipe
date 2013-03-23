@@ -15,14 +15,6 @@ Swipe.Page =
   clearTitle: ->
     $('head title').text(this.defaultTitle)
   
-  # Set the browser URL
-  setURL: (url)->
-    document.location.hash = url
-  
-  # Clear the URL
-  clearURL: ->
-    document.location.hash = ''
-  
   # Display a flash message for a short period of time
   flashMessage: (type, message, length)->
     template = "<section class='flash live #{type}'><p>#{message}</p></section>"
