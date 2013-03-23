@@ -67,9 +67,9 @@ main `application.coffee` file.
 
 ```coffee
 Swipe.initializeApp ()->
+  # Load the default layout for the application when the DOM has
+  # been loaded.
   $(document).ready ->
-    # Load the default layout for the application when the DOM has
-    # been loaded.
     Swipe.App.DefaultLayout.load()
 ```
 
@@ -103,9 +103,19 @@ function to execute when the tab has been loaded
 
 ```coffee
 Swipe.App.TicketView.load id, (completeFunction)->
+
+  # We will set some properties for the view. 'this' is the instance
+  # of the new view.
   this.properties             = {}
   this.properties.subject     = "My Example Ticket Subject"
   this.properties.reference   = "AB-123123"
+  
+  # Setting the pageTitle variable will ensure the page's <title>
+  # attribute is set as appropriate when the view is visible.
+  this.pageTitle              = this.properties.subject
+  
+  # We must remember to execute the completeFunction function when
+  # we're finishing loading.
   completeFunction.call()
 ```
 
