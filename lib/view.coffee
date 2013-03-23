@@ -36,6 +36,7 @@ class Swipe.View extends Swipe.ViewObject
       Swipe.Page.setURL(this.url)
       this.onFocus()
       this.constructor.runBoundEvents 'focus', this
+      this.constructor.runBoundEvents 'visible', this
       this.constructor.bindKeyboardShortcuts this
       true
     else
@@ -48,6 +49,7 @@ class Swipe.View extends Swipe.ViewObject
       this.domObject.hide()
       this.onBlur()
       this.constructor.runBoundEvents 'blur', this
+      this.constructor.runBoundEvents 'hidden', this
       this.constructor.unbindKeyboardShortcuts this
       
       if Swipe.Router.currentURL() == this.url

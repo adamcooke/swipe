@@ -14,6 +14,7 @@ class Swipe.ViewObject
       this.constructor.bindBehaviours this
       this.onLoad()
       this.constructor.runBoundEvents 'load', this
+      this.constructor.runBoundEvents 'visible', this
       this.constructor.bindKeyboardShortcuts this
       true
     else
@@ -25,6 +26,7 @@ class Swipe.ViewObject
     if this.domObject.length
       this.onUnload()
       this.constructor.unbindKeyboardShortcuts this
+      this.constructor.runBoundEvents 'hidden', this
       this.constructor.runBoundEvents 'unload', this
       this.domObject.remove()
       true

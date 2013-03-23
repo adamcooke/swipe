@@ -207,6 +207,8 @@ The main hooks which you may wish to use are:
 * `unload` - called when the view is removed from the DOM (layouts & views)
 * `focus` - called when an existing view is brought into the foreground (views only)
 * `blur` - called when a view is hidden (views only)
+* `visible` - called when a view is made visible (loaded or brought into focus)
+* `hidden` - called when a view is no longer visible (unloaded or blurred)
 
 ```coffee
 Swipe.App.TicketView.addBindEvent 'load', ->
