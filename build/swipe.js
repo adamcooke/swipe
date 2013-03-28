@@ -3143,6 +3143,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
         this.constructor.bindBehaviours(this);
         this.onLoad();
         this.constructor.runBoundEvents('load', this);
+        this.constructor.runBoundEvents('visible', this);
         this.constructor.bindKeyboardShortcuts(this);
         return true;
       } else {
@@ -3154,6 +3155,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       if (this.domObject.length) {
         this.onUnload();
         this.constructor.unbindKeyboardShortcuts(this);
+        this.constructor.runBoundEvents('hidden', this);
         this.constructor.runBoundEvents('unload', this);
         this.domObject.remove();
         return true;
@@ -3405,6 +3407,8 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
 
     View.prototype.id = null;
 
+    View.prototype.pageTitle = 'Untitled View';
+
     View.prototype.url = null;
 
     View.prototype.loadIntoDOM = function() {
@@ -3414,6 +3418,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
 
     View.prototype.onLoad = function() {
       this.url = Swipe.Router.currentURL();
+      Swipe.Page.setTitle(this.pageTitle);
       return this.constructor.blurAll();
     };
 
@@ -3429,10 +3434,12 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     View.prototype.focus = function() {
       if (this.domObject.is(':hidden')) {
         this.constructor.blurAll();
+        Swipe.Page.setTitle(this.pageTitle);
+        Swipe.Router.setURL(this.url);
         this.domObject.show();
-        Swipe.Page.setURL(this.url);
         this.onFocus();
         this.constructor.runBoundEvents('focus', this);
+        this.constructor.runBoundEvents('visible', this);
         this.constructor.bindKeyboardShortcuts(this);
         return true;
       } else {
@@ -3445,6 +3452,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
         this.domObject.hide();
         this.onBlur();
         this.constructor.runBoundEvents('blur', this);
+        this.constructor.runBoundEvents('hidden', this);
         this.constructor.unbindKeyboardShortcuts(this);
         if (Swipe.Router.currentURL() === this.url) {
           Swipe.Router.goTo('default');
@@ -3470,7 +3478,22 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       return this.url = newURL;
     };
 
+    View.prototype.setPageTitle = function(newTitle) {
+      if (newTitle !== this.pageTitle && (this.domObject != null) && this.domObject.is(':visible')) {
+        Swipe.Page.setTitle(newTitle);
+      }
+      return this.pageTitle = newTitle;
+    };
+
     View.stack = new Array;
+
+    View.activeView = function() {
+      var visibleViews;
+      visibleViews = this.stack.filter(function(view) {
+        return view.domObject.is(':visible');
+      });
+      return visibleViews[0];
+    };
 
     View.load = function(id, func) {
       var completeFunction, existingView, view,
@@ -3535,12 +3558,6 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     },
     clearTitle: function() {
       return $('head title').text(this.defaultTitle);
-    },
-    setURL: function(url) {
-      return document.location.hash = url;
-    },
-    clearURL: function() {
-      return document.location.hash = '';
     },
     flashMessage: function(type, message, length) {
       var notice, template;
