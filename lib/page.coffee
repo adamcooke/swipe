@@ -36,6 +36,7 @@ Swipe.Page =
   #      html            - html to insert in dialog
   #      buttons         - an array of buttons which should be included (cancel will always exist)
   #      className       - a class to assign to the dialog
+  #      opened          - a method which should be accessed when the box is displayed
   alertBox: (options)->
     tpl = Swipe.getTemplate('alert_box', options)
     box = $($.parseHTML(tpl)).prependTo($('body'))
@@ -50,12 +51,14 @@ Swipe.Page =
             closeOverlay()
 
         box.find('ul.buttons li:eq('+(i + 1)+') button').data('click-function', button.function).data('button-id', i + 1);
-
+    
+    options.opened.call(null, box) if opened.opened?
+    
     box.on 'click', 'ul.buttons li button', ->
       func = $(this).data('click-function')
       closeOverlay()
       func(box) if func
-
+      
     addOverlay ->
       box.remove()
       Mousetrap.unbind('enter')
