@@ -3591,7 +3591,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
           return box.find('ul.buttons li:eq(' + (i + 1) + ') button').data('click-function', button["function"]).data('button-id', i + 1);
         });
       }
-      if (opened.opened != null) {
+      if (options.opened != null) {
         options.opened.call(null, box);
       }
       box.on('click', 'ul.buttons li button', function() {

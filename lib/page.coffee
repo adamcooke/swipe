@@ -52,7 +52,7 @@ Swipe.Page =
 
         box.find('ul.buttons li:eq('+(i + 1)+') button').data('click-function', button.function).data('button-id', i + 1);
     
-    options.opened.call(null, box) if opened.opened?
+    options.opened.call(null, box) if options.opened?
     
     box.on 'click', 'ul.buttons li button', ->
       func = $(this).data('click-function')
