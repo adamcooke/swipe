@@ -3612,7 +3612,6 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
         options.text = title.text;
         title = title.title;
       }
-      console.log(options);
       return this.alertBox({
         title: title,
         text: options.text,

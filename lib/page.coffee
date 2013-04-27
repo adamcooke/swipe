@@ -69,8 +69,6 @@ Swipe.Page =
       options.text = title.text
       title = title.title
 
-    console.log options
-
     this.alertBox 
       title: title
       text: options.text
