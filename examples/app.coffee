@@ -30,10 +30,12 @@ class Swipe.App.DefaultLayout extends Swipe.Layout
 # with full access to the data source we created earlier.
 class Swipe.App.ListView extends Swipe.View
   template: -> Swipe.getTemplate 'list', {contacts: window.AddressBook}
+  pageTitle: 'Contacts'
 
 # Our Contact view will point to 'contact' tempate and provide access to a
 # 'contact' variable which will contain the contact's properties (name, etc...)
 class Swipe.App.ContactView extends Swipe.View
+  viewContainer: '#contact'
   template: -> Swipe.getTemplate 'contact', {contact: this.properties}
   
   # Rather than using the built in 'load' method directly from our router, 
@@ -52,6 +54,8 @@ class Swipe.App.ContactView extends Swipe.View
         # We will set the 'properties' variable to the details of the contact
         # found earlier.
         this.properties = contact
+        # Set the page title
+        this.setPageTitle contact.name
         # As required, we now complete the loading by calling the passed
         # completeFunction.
         completeFunction.call()
@@ -107,6 +111,7 @@ Swipe.Router.add 'default', '', ->
 # below). Note that this route uses the 'loadFromTwitterName' function we made 
 # earlier in our Contact View.
 Swipe.Router.add 'contact', '/contact/:twitter', ->
+  Swipe.App.ListView.load('list')
   Swipe.App.ContactView.loadFromTwitterName(this.twitter)
 
 # We're nealry done now. We now need to say what should happen when the application
@@ -119,6 +124,7 @@ Swipe.Router.add 'contact', '/contact/:twitter', ->
 # approprite view based on your current location hash.
 Swipe.initializeApp ->
   $(document).ready =>
+    Swipe.Page.defaultTitle = 'Twitter Address Book'
     Swipe.App.DefaultLayout.load()
 
 # We're done! Let's start her up and watch our address book spring into life.

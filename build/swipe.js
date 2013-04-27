@@ -3405,6 +3405,8 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       View.__super__.constructor.apply(this, arguments);
     }
 
+    View.prototype.viewContainer = '#views';
+
     View.prototype.id = null;
 
     View.prototype.pageTitle = 'Untitled View';
@@ -3412,14 +3414,15 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     View.prototype.url = null;
 
     View.prototype.loadIntoDOM = function() {
-      this.domObject = $("<div id='view-" + this.id + "' class='stripeView'></div>").appendTo($(Swipe.viewContainer));
+      this.domObject = $("<div id='view-" + this.id + "' class='stripeView'></div>").appendTo($(this.viewContainer));
       return this.domObject.html(this.template());
     };
 
     View.prototype.onLoad = function() {
+      console.log("Loaded View");
       this.url = Swipe.Router.currentURL();
       Swipe.Page.setTitle(this.pageTitle);
-      return this.constructor.blurAll();
+      return this.constructor.blurAll(this.viewContainer);
     };
 
     View.prototype.onUnload = function() {
@@ -3433,7 +3436,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
 
     View.prototype.focus = function() {
       if (this.domObject.is(':hidden')) {
-        this.constructor.blurAll();
+        this.constructor.blurAll(this.viewContainer);
         Swipe.Page.setTitle(this.pageTitle);
         Swipe.Router.setURL(this.url);
         this.domObject.show();
@@ -3498,7 +3501,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     View.load = function(id, func) {
       var completeFunction, existingView, view,
         _this = this;
-      if (Swipe.currentLayout && $('body div#views').length) {
+      if (Swipe.currentLayout) {
         if (Swipe.currentLayout.viewReady) {
           existingView = this.stack.filter(function(v) {
             return v.id === id;
@@ -3531,8 +3534,16 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       }
     };
 
-    View.blurAll = function() {
-      return $.each(this.stack, function(i, view) {
+    View.blurAll = function(viewContainer) {
+      var stackItems;
+      if (viewContainer) {
+        stackItems = this.stack.filter(function(v) {
+          return v.viewContainer === viewContainer;
+        });
+      } else {
+        stackItems = this.stack;
+      }
+      return $.each(stackItems, function(i, view) {
         view.blur();
         return true;
       });

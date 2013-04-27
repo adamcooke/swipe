@@ -1,5 +1,13 @@
 class Swipe.View extends Swipe.ViewObject
   
+  # Which HTML dom element should this view belong to. By default, this will load
+  # into one area but in some cases, you may wish to load the view elsewhere in
+  # the page by changing this. 
+  #
+  # This allows you to have multiple view stacks if you wish as each unique viewContainer
+  # has it's own stack which works independently.
+  viewContainer: '#views'
+  
   # Each view has an ID which is used to determine whether or not the
   # view is already present in the "stack" or not. This will be determined
   # automatically or can be passed when initializing the view.
@@ -16,14 +24,15 @@ class Swipe.View extends Swipe.ViewObject
   
   # Create a new view container and insert the view's template into it.
   loadIntoDOM: ->
-    this.domObject = $("<div id='view-#{this.id}' class='stripeView'></div>").appendTo $(Swipe.viewContainer)
+    this.domObject = $("<div id='view-#{this.id}' class='stripeView'></div>").appendTo $(this.viewContainer)
     this.domObject.html this.template()
   
   # When loading a view, all visible views should be hidden.
   onLoad: ->
+    console.log "Loaded View"
     this.url = Swipe.Router.currentURL()
     Swipe.Page.setTitle(this.pageTitle)
-    this.constructor.blurAll()
+    this.constructor.blurAll(this.viewContainer)
   
   # When a view is unloaded, remove it from the stack's array and invoke the
   # blur method.
@@ -36,7 +45,7 @@ class Swipe.View extends Swipe.ViewObject
   # be blurred (not removed).
   focus: ->
     if this.domObject.is ':hidden'
-      this.constructor.blurAll()
+      this.constructor.blurAll(this.viewContainer)
       Swipe.Page.setTitle(this.pageTitle)
       Swipe.Router.setURL(this.url)
       this.domObject.show()
@@ -98,7 +107,7 @@ class Swipe.View extends Swipe.ViewObject
   # If the function passed to this method exists, the method will be passed the view 
   # as well as a function which you must remember to execute when you are finished.
   @load = (id, func)->
-    if Swipe.currentLayout && $('body div#views').length
+    if Swipe.currentLayout
       if Swipe.currentLayout.viewReady
         existingView = @stack.filter (v)-> v.id == id
         if existingView.length
@@ -127,12 +136,16 @@ class Swipe.View extends Swipe.ViewObject
       console.log "no views can be displayed in the given template. not loading view."
       
   # This method will hide all views in the view container
-  @blurAll = ->
-    $.each this.stack, (i, view)-> view.blur(); true
+  @blurAll = (viewContainer)->
+    if viewContainer
+      stackItems = this.stack.filter (v)-> v.viewContainer == viewContainer
+    else
+      stackItems = this.stack
+    $.each stackItems, (i, view)-> view.blur(); true
       
   # This method will unload all views which are loaded
   @unloadAll = ->
     while this.stack.length
       this.stack[0].unload()
-      
+  
   

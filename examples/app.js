@@ -49,6 +49,8 @@
       });
     };
 
+    ListView.prototype.pageTitle = 'Contacts';
+
     return ListView;
 
   })(Swipe.View);
@@ -60,6 +62,8 @@
     function ContactView() {
       ContactView.__super__.constructor.apply(this, arguments);
     }
+
+    ContactView.prototype.viewContainer = '#contact';
 
     ContactView.prototype.template = function() {
       return Swipe.getTemplate('contact', {
@@ -76,6 +80,7 @@
       if (contact) {
         return this.load("contact-" + (md5(name)), function(completeFunction) {
           this.properties = contact;
+          this.setPageTitle(contact.name);
           return completeFunction.call();
         });
       } else {
@@ -117,12 +122,14 @@
   });
 
   Swipe.Router.add('contact', '/contact/:twitter', function() {
+    Swipe.App.ListView.load('list');
     return Swipe.App.ContactView.loadFromTwitterName(this.twitter);
   });
 
   Swipe.initializeApp(function() {
     var _this = this;
     return $(document).ready(function() {
+      Swipe.Page.defaultTitle = 'Twitter Address Book';
       return Swipe.App.DefaultLayout.load();
     });
   });

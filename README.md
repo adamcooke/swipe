@@ -41,7 +41,7 @@ to the `getTemplate` method will be available.
 Layouts will be loaded directly into the `<body>` of the page so your template should
 reflect this positioning. An example HTML layout may look like the code below. In
 all cases a layout should define an object with the ID `views`. This is where your
-views will be stacked.
+views will be stacked (by default).
 
 ```html
 <header>
@@ -127,6 +127,26 @@ is added to the stack and displayed to the user. You can use this method to load
 data from an external source, if needed. However, it is important to remember to
 execute the passed `completeFunction` otherwise the view loading will not complete
 and the view will not be inserted into your stack.
+
+### Multiple View Containers
+
+In some cases, you may wish to open a view in a different container within your layout.
+By default, all pages will be loaded into the element with the ID `views`. If you wish
+to create a view which loads into a different element, you can change this on a per-view
+basis.
+
+```coffee
+class Swipe.App.ContactView extends Swipe.View
+  viewContainer: '#contact'
+```
+
+When you specify a different view container for a view, only the contents of this container
+will be hidden when it is unfocused (or another view is pushed into the stack). The views
+shown in other containers will remain visible.
+
+One item to note about this functionality is that the contents of your URL will most likely
+only ever update one view which means other views can end up unloaded unless load the other
+views on load too.
 
 ## Routing
 
