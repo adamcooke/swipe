@@ -1,4 +1,4 @@
-task :build do
+task :default do
   build_dir = 'build'
   FileUtils.mkdir_p(build_dir)
   vendor = ['jquery', 'handlebars', 'md5', 'moment', 'mousetrap', 'autolink', 'autoresize', 'autocomplete']
