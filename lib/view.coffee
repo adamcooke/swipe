@@ -29,7 +29,6 @@ class Swipe.View extends Swipe.ViewObject
   
   # When loading a view, all visible views should be hidden.
   onLoad: ->
-    console.log "Loaded View"
     this.url = Swipe.Router.currentURL()
     Swipe.Page.setTitle(this.pageTitle)
     this.constructor.blurAll(this.viewContainer)
