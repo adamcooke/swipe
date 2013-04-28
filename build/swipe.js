@@ -3419,7 +3419,6 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     };
 
     View.prototype.onLoad = function() {
-      console.log("Loaded View");
       this.url = Swipe.Router.currentURL();
       Swipe.Page.setTitle(this.pageTitle);
       return this.constructor.blurAll(this.viewContainer);
