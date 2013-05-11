@@ -1,38 +1,38 @@
 class Swipe.View extends Swipe.ViewObject
-  
+
   # Which HTML dom element should this view belong to. By default, this will load
   # into one area but in some cases, you may wish to load the view elsewhere in
-  # the page by changing this. 
+  # the page by changing this.
   #
   # This allows you to have multiple view stacks if you wish as each unique viewContainer
   # has it's own stack which works independently.
   viewContainer: '#views'
-  
+
   # Each view has an ID which is used to determine whether or not the
   # view is already present in the "stack" or not. This will be determined
   # automatically or can be passed when initializing the view.
   id: null
-  
+
   # This stores the view title which will be set whenever the view is brought
   # into focus. This should be set when the view is loaded.
   pageTitle: 'Untitled View'
-  
+
   # This parameter will store the URL associated with this view. It will be
   # taken automatically from the current URL when the view is *loaded* and
   # replaced into the URL when the view is brought back into focus.
   url: null
-  
+
   # Create a new view container and insert the view's template into it.
   loadIntoDOM: ->
     this.domObject = $("<div id='view-#{this.id}' class='stripeView'></div>").appendTo $(this.viewContainer)
     this.domObject.html this.template()
-  
+
   # When loading a view, all visible views should be hidden.
   onLoad: ->
     this.url = Swipe.Router.currentURL()
     Swipe.Page.setTitle(this.pageTitle)
     this.constructor.blurAll(this.viewContainer)
-  
+
   # When a view is unloaded, remove it from the stack's array and invoke the
   # blur method.
   onUnload: ->
@@ -74,36 +74,36 @@ class Swipe.View extends Swipe.ViewObject
   # Various methods which can be overridden by views to insert into the
   onFocus:    -> true
   onBlur:     -> true
-  
+
   # Update the URL for the current filter, if the filter is visible, update the URL too
   # without invoking any callbacks
   updateURL: (newURL)->
     if this.domObject.is ':visible'
       Swipe.Router.setURL newURL
     this.url = newURL
-  
+
   # Set's the page title for the page and updates the current page title if
   # needed.
   setPageTitle: (newTitle)->
     if newTitle != this.pageTitle && this.domObject? && this.domObject.is(':visible')
       Swipe.Page.setTitle newTitle
     this.pageTitle = newTitle
-    
-  
+
+
   # This object will load a new class and return the new view after adding it
   # to the stack. All views (regardless of class) are in the same stack.
   @stack = new Array
-  
+
   # Return the active view from the stack
   @activeView = ->
     visibleViews = this.stack.filter (view)-> view.domObject.is(':visible')
     visibleViews[0]
-  
-  # Initializes a new view and runs the load method to get thigns started. It 
+
+  # Initializes a new view and runs the load method to get thigns started. It
   # must be passed the ID for the view. It will also run a given function before
   # the load method is executed.
   #
-  # If the function passed to this method exists, the method will be passed the view 
+  # If the function passed to this method exists, the method will be passed the view
   # as well as a function which you must remember to execute when you are finished.
   @load = (id, func)->
     if Swipe.currentLayout
@@ -115,11 +115,11 @@ class Swipe.View extends Swipe.ViewObject
         else
           view = new this
           view.id = id
-          
+
           completeFunction = ->
             view.load()
             Swipe.View.stack.push view
-          
+
           if func
             func.call(view, completeFunction)
           else
@@ -133,7 +133,7 @@ class Swipe.View extends Swipe.ViewObject
         console.log 'layout is not ready to accept views. trying again in a moment'
     else
       console.log "no views can be displayed in the given template. not loading view."
-      
+
   # This method will hide all views in the view container
   @blurAll = (viewContainer)->
     if viewContainer
@@ -141,10 +141,9 @@ class Swipe.View extends Swipe.ViewObject
     else
       stackItems = this.stack
     $.each stackItems, (i, view)-> view.blur(); true
-      
+
   # This method will unload all views which are loaded
   @unloadAll = ->
     while this.stack.length
       this.stack[0].unload()
-  
-  
+

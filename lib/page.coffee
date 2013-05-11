@@ -3,18 +3,18 @@
 # which the application will use to perform various actions such as setting the
 # browser title or displaying confirmation dialogs.
 Swipe.Page =
-  
+
   # The default page title for the application
   defaultTitle: null
 
   # Set the browser's page title
   setTitle: (name)->
     $('head title').text(name + " - " + this.defaultTitle)
-  
+
   # Set the browser title back to the default
   clearTitle: ->
     $('head title').text(this.defaultTitle)
-  
+
   # Display a flash message for a short period of time
   flashMessage: (type, message, length)->
     template = "<section class='flash live #{type}'><p>#{message}</p></section>"
@@ -51,14 +51,14 @@ Swipe.Page =
             closeOverlay()
 
         box.find('ul.buttons li:eq('+(i + 1)+') button').data('click-function', button.function).data('button-id', i + 1);
-    
+
     options.opened.call(null, box) if options.opened?
-    
+
     box.on 'click', 'ul.buttons li button', ->
       func = $(this).data('click-function')
       closeOverlay()
       func(box) if func
-      
+
     addOverlay ->
       box.remove()
       Mousetrap.unbind('enter')
@@ -69,7 +69,7 @@ Swipe.Page =
       options.text = title.text
       title = title.title
 
-    this.alertBox 
+    this.alertBox
       title: title
       text: options.text
       buttons: [

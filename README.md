@@ -6,7 +6,7 @@ otherwise your life will be pretty bad.
 
 Before we get started, this is **not** designed to be very complicated and
 really should not be compared to other JS frameworks like Ember or Backbone.
-It has been developed for use in the development of our own applications 
+It has been developed for use in the development of our own applications
 which follow our own design pattern. If you like it, great - feel free to use
 it. If you don't, that's fair enough, there are plenty of other great frameworks
 out there for you to look at it.
@@ -18,17 +18,17 @@ show how to get up and running quite easily.** [View a live example?](http://ada
 Please also note, we are still working on this and it will be developed constantly
 over the next few months and should not be considered stable or feature-locked.
 
-Now, onwards with some theory... 
+Now, onwards with some theory...
 
 ## Layouts
 
 A layout is an HTML document which includes an area for views to be inserted
 within. You should define a default layout class within the Swipe.App namespace
-as shown below. 
+as shown below.
 
 ```coffee
 class Swipe.App.DefaultLayout extends Swipe.Layout
-  
+
   # Specify the default template for the layout
   template: -> Swipe.getTemplate('default-layout')
 ```
@@ -56,7 +56,7 @@ views will be stacked (by default).
 When a layout is inserted into the page, it will be wrapped within in a `<div>` object.
 This tag will have and ID of `swipeLayout` and only one can be present at a time.
 
-If a new layout is loaded into your application, any existing layout along with it's 
+If a new layout is loaded into your application, any existing layout along with it's
 view stack will be removed.
 
 ### Loading a layout
@@ -83,10 +83,10 @@ Swipe.App.LoginLayout.load()
 
 ## Views
 
-A view is a page which is displayed within your layout. They function in a similar 
+A view is a page which is displayed within your layout. They function in a similar
 way to layouts and each view has it's own class.
 
-Unlike layouts, you can insert as many views into your page as you wish. Each view 
+Unlike layouts, you can insert as many views into your page as you wish. Each view
 has a unique ID which identifies it within your page's view stack.
 
 ```coffee
@@ -94,11 +94,11 @@ class Swipe.App.TicketView extends Swipe.View
 
   # Specify the default template for the view
   template: -> Swipe.getTemplate('ticket-view')
-  
+
 ```
 
-To display a view in your page, you need to load it in a similar way to layouts. 
-You will call it's `load` method and pass an ID (as a string) and an, optional, 
+To display a view in your page, you need to load it in a similar way to layouts.
+You will call it's `load` method and pass an ID (as a string) and an, optional,
 function to execute when the tab has been loaded
 
 ```coffee
@@ -109,11 +109,11 @@ Swipe.App.TicketView.load id, (completeFunction)->
   this.properties             = {}
   this.properties.subject     = "My Example Ticket Subject"
   this.properties.reference   = "AB-123123"
-  
+
   # Setting the pageTitle variable will ensure the page's <title>
   # attribute is set as appropriate when the view is visible.
   this.setPageTitle this.properties.subject
-  
+
   # We must remember to execute the completeFunction function when
   # we're finishing loading.
   completeFunction.call()
@@ -153,7 +153,7 @@ views on load too.
 Swipe includes a routing engine which allows you to convert a URL into a view. For
 example, you may wish to route `tickets/AB-123123` to your TicketView and `contact/1`
 to a ContactView. Any changes to the URL will cause the router to trigger it's associated
-method. 
+method.
 
 ```coffee
 Swipe.Router.add 'ticket', '/ticket/:ref', ->
@@ -220,7 +220,7 @@ when it is loaded.
 ```coffee
 Swipe.App.TicketView.addBehaviour 'click', 'ul.list li a', (view)->
   alert "You clicked on a link in the list!"
-  
+
 Swipe.App.TicketView.addBehaviour 'submit', 'form', (view)->
   form = $(this).attr 'href'
   view.submitFormTo form

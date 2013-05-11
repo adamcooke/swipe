@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
   <!--
-    
+
     This is an example application HTML file for your application.
-    
-    This should be read in conjunction with the 'app.js' in the same 
-    directory. 
-  
+
+    This should be read in conjunction with the 'app.js' in the same
+    directory.
+
   -->
   <head>
-    
+
     <title>Address Book</title>
-    
+
     <!-- Require the swipe framework -->
     <script type='text/javascript' src='../build/swipe.js' /></script>
-    
+
     <!-- Require your application -->
     <script type='text/javascript' src='app.js' /></script>
-    
+
     <!-- Defines your 'layout' view for the application -->
     <script id="tpl-layout" type="text/x-handlebars-template">
       <header>
@@ -29,7 +29,7 @@
         <p><small>&copy; 2013 My Twitter Address Book</small></p>
       </footer>
     </script>
-    
+
     <!-- Defines your 'list' view for the application -->
     <script id="tpl-list" type="text/x-handlebars-template">
       <h3>These are the people in my address book!</h3>
@@ -39,7 +39,7 @@
         {{/each}}
       </ul>
     </script>
-    
+
     <!-- Defines your 'contact' view for the application -->
     <script id="tpl-contact" type="text/x-handlebars-template">
       <hr />
@@ -48,7 +48,7 @@
       <hr />
       <p><a href='#'>Back to list?</a></p>
     </script>
-    
+
   </head>
 <body>
   <noscript>

@@ -10,7 +10,7 @@ $.fn.serializeObject = ->
     else
       o[this.name] = this.value || '';
   o
-  
+
 $.unparam = (value)->
   # Object that holds names => values.
   params = {}
@@ -22,5 +22,5 @@ $.unparam = (value)->
     # Repeated parameters with the same name are overwritten. Parameters
     # with no value get set to boolean true.
     params[decodeURIComponent(pair[0])] = if pair.length == 2 then decodeURIComponent(pair[1].replace(/\+/g, ' ')) else true
-  
+
   params
