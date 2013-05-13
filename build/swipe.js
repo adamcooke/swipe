@@ -3637,6 +3637,48 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     }
   };
 
+  Swipe.Dialog = {
+    "new": function(options) {
+      var dialog, dialogTemplate, html, overlay;
+      if (options == null) {
+        options = {};
+      }
+      if (options.template) {
+        html = Swipe.getTemplate(options.template, options.templateOptions || {});
+      } else if (options.html) {
+        html = options.html;
+      } else {
+        html = "<p>Undefined HTML!</p>";
+      }
+      dialogTemplate = $("<div class='swipeDialog'><div class='title'><h2>" + options.title + "</h2></div><div class='content'>" + html + "</div></div>");
+      dialog = dialogTemplate.appendTo($('body'));
+      if (options.width != null) {
+        dialog.css('width', options.width + 'px');
+        dialog.css('margin-left', "-" + (options.width / 2) + "px");
+      }
+      if (options.class_name != null) {
+        dialog.addClass(options.class_name);
+      }
+      if (options.beforeAdd != null) {
+        options.beforeAdd.call(dialog, options);
+      }
+      dialog.show();
+      overlay = addOverlay(function() {
+        if (options.beforeRemove != null) {
+          options.beforeRemove.call(dialog, options);
+        }
+        dialog.remove();
+        if (options.afterRemove != null) {
+          return options.afterRemove.call(dialog, options);
+        }
+      });
+      overlay.addClass('withDialog');
+      if (options.afterAdd != null) {
+        return options.afterAdd.call(dialog, options);
+      }
+    }
+  };
+
   Swipe.Store = {
     get: function(key) {
       var value;

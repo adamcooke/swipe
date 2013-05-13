@@ -9,7 +9,7 @@ task :default do
   tmp_helpers_file = File.join(build_dir, 'helpers.tmp.js')
   tmp_swipe_file = File.join(build_dir, 'swipe.tmp.js')
 
-  lib_files = ['framework', 'view_object', 'router', 'layout', 'view', 'page', 'store', 'tabbed_view']
+  lib_files = ['framework', 'view_object', 'router', 'layout', 'view', 'page', 'dialog', 'store', 'tabbed_view']
   lib_files = lib_files.map { |v| "lib/#{v}.coffee" }.join(' ')
 
   system "coffee --compile --join #{tmp_helpers_file} helpers/*.coffee"

@@ -22,6 +22,12 @@ window.AddressBook = [
 class Swipe.App.DefaultLayout extends Swipe.Layout
   template: -> Swipe.getTemplate 'layout'
 
+  this.addBehaviour 'click', 'a.dialog', (view)->
+    Swipe.Dialog.new
+      title: "Hello World"
+      html: "<p>Hello there!</p>"
+    false
+
 # Our address book will include a list of contacts and a page with more
 # information about a contact. We will now define these two views which
 # will be used in the app.

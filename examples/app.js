@@ -31,6 +31,14 @@
       return Swipe.getTemplate('layout');
     };
 
+    DefaultLayout.addBehaviour('click', 'a.dialog', function(view) {
+      Swipe.Dialog["new"]({
+        title: "Hello World",
+        html: "<p>Hello there!</p>"
+      });
+      return false;
+    });
+
     return DefaultLayout;
 
   })(Swipe.Layout);
