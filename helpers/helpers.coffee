@@ -6,10 +6,13 @@ window.addOverlay = (closeAction) ->
 # Closes the upper most overlay
 window.closeOverlay = ->
   overlay = $('div.overlay:last')
+  if warning = overlay.data('closure-warning')
+    unless confirm(warning)
+      return false
   closeAction = overlay.data('close-action')
   closeAction() if closeAction
   overlay.remove()
-
+  
 # Escape a given string so that it can be safely displayed
 htmlEntitySafeMap = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': '&quot;', "'": '&#39;', "/": '&#x2F;'}
 window.htmlEscape = (string) ->
