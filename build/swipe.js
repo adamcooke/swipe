@@ -2981,8 +2981,13 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
   };
 
   window.closeOverlay = function() {
-    var closeAction, overlay;
+    var closeAction, overlay, warning;
     overlay = $('div.overlay:last');
+    if (warning = overlay.data('closure-warning')) {
+      if (!confirm(warning)) {
+        return false;
+      }
+    }
     closeAction = overlay.data('close-action');
     if (closeAction) {
       closeAction();
