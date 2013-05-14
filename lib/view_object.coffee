@@ -101,5 +101,5 @@ class Swipe.ViewObject
   @bindBehaviours = (object)->
     return unless @behaviours[this.name]
     $.each @behaviours[this.name], (i, b)->
-      $(object.domObject).on b.event, b.selector, ->
-        b.func.call this, object
+      $(object.domObject).on b.event, b.selector, (event)->
+        b.func.call this, object, event

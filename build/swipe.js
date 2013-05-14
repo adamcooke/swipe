@@ -3261,8 +3261,8 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
         return;
       }
       return $.each(this.behaviours[this.name], function(i, b) {
-        return $(object.domObject).on(b.event, b.selector, function() {
-          return b.func.call(this, object);
+        return $(object.domObject).on(b.event, b.selector, function(event) {
+          return b.func.call(this, object, event);
         });
       });
     };

@@ -42,4 +42,3 @@ Swipe.Dialog =
       options.afterRemove.call(dialog, options) if options.afterRemove?
     overlay.addClass 'withDialog'
     options.afterAdd.call(dialog, options) if options.afterAdd?
-
