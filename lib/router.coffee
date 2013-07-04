@@ -54,11 +54,17 @@ Swipe.Router =
   # Return's the current URL
   currentURL: ->
     document.location.hash.replace(/^\#/, '')
-
+  
+  # Set this property to ensure that no routing takes place
+  disableHashChangeDetection: false
+  
   # Starting monitoring the application for changes to the URL which should
   # be dispatched to the application
   start: ->
-    window.onhashchange = => this.routeTo(window.location.hash)
+    window.onhashchange = =>
+      if this.disableHashChangeDetection == false
+        this.routeTo(window.location.hash)
+      this.disableHashChangeDetection = false
 
   # Stop monitoring requests
   stop: ->
@@ -66,7 +72,6 @@ Swipe.Router =
 
   # Sets the URL for a page without invoking any routing
   setURL: (newURL)->
-    this.stop()
+    this.disableHashChangeDetection = true
     document.location.hash = newURL
-    this.start()
-    newURL
+    

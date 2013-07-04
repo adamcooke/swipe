@@ -3344,20 +3344,22 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
     currentURL: function() {
       return document.location.hash.replace(/^\#/, '');
     },
+    disableHashChangeDetection: false,
     start: function() {
       var _this = this;
       return window.onhashchange = function() {
-        return _this.routeTo(window.location.hash);
+        if (_this.disableHashChangeDetection === false) {
+          _this.routeTo(window.location.hash);
+        }
+        return _this.disableHashChangeDetection = false;
       };
     },
     stop: function() {
       return window.onhashchange = null;
     },
     setURL: function(newURL) {
-      this.stop();
-      document.location.hash = newURL;
-      this.start();
-      return newURL;
+      this.disableHashChangeDetection = true;
+      return document.location.hash = newURL;
     }
   };
 
