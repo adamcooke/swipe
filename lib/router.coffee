@@ -66,6 +66,7 @@ Swipe.Router =
 
   # Sets the URL for a page without invoking any routing
   setURL: (newURL)->
-    this.stop
+    this.stop()
     document.location.hash = newURL
-    this.start
+    this.start()
+    newURL

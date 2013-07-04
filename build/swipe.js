@@ -3354,9 +3354,10 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       return window.onhashchange = null;
     },
     setURL: function(newURL) {
-      this.stop;
+      this.stop();
       document.location.hash = newURL;
-      return this.start;
+      this.start();
+      return newURL;
     }
   };
 
