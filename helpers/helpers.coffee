@@ -33,7 +33,9 @@ window.constructUrl = ->
 # Return an appropriate time string
 window.timeInWords = (time)->
   outputString = ''
+  return '' if time == null
   momentObj = moment(time)
+  return '' if momentObj == null
   if momentObj.isBefore(moment().subtract('days', 2))
     outputString += 'on '
     outputString += momentObj.format('Do MMM')
