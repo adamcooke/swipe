@@ -19,11 +19,16 @@ Swipe.Page =
   flashMessage: (type, message, length)->
     template = "<section class='flash live #{type}'><p>#{message}</p></section>"
     notice = $(template).appendTo('body').show('fast')
-    setTimeout ->
-      notice.hide 'slow', ->
-        notice.remove()
+    notice.on 'click', this.removeFlashMessage
+    setTimeout =>
+      this.removeFlashMessage.call(notice)
     , length || 5000
     true
+
+  removeFlashMessage: ->
+    notice = $(this)
+    notice.hide 'slow', ->
+      notice.remove()
 
   # Remove all flash messages from the page
   removeAllFlashMessages: ->

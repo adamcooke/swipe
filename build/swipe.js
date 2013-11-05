@@ -3583,15 +3583,22 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
       return $('head title').text(this.defaultTitle);
     },
     flashMessage: function(type, message, length) {
-      var notice, template;
+      var notice, template,
+        _this = this;
       template = "<section class='flash live " + type + "'><p>" + message + "</p></section>";
       notice = $(template).appendTo('body').show('fast');
+      notice.on('click', this.removeFlashMessage);
       setTimeout(function() {
-        return notice.hide('slow', function() {
-          return notice.remove();
-        });
+        return _this.removeFlashMessage.call(notice);
       }, length || 5000);
       return true;
+    },
+    removeFlashMessage: function() {
+      var notice;
+      notice = $(this);
+      return notice.hide('slow', function() {
+        return notice.remove();
+      });
     },
     removeAllFlashMessages: function() {
       return $('section.flash').remove();
