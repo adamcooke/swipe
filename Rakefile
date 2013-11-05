@@ -1,7 +1,7 @@
 task :default do
   build_dir = 'build'
   FileUtils.mkdir_p(build_dir)
-  vendor = ['jquery', 'handlebars', 'md5', 'moment', 'mousetrap', 'autolink', 'autoresize', 'autocomplete']
+  vendor = ['jquery', 'ie9-prototype-name', 'handlebars', 'md5', 'moment', 'mousetrap', 'autolink', 'autoresize', 'autocomplete']
   vendor = vendor.map { |v| "vendor/#{v}.js" }.join(' ')
   `cat #{vendor} > #{File.join(build_dir, 'vendor.tmp.js')}`
 
