@@ -3257,7 +3257,7 @@ Mousetrap=function(a){var d={},e=a.stopCallback;a.stopCallback=function(b,c,a){r
         return false;
       }
       return $.each(this.keyboardShortcuts[this.name], function(i, sc) {
-        return Mousetrap.unbind(sc.shortcut);
+        return Mousetrap.unbind(sc.shortcut, sc.options.type || 'keydown');
       });
     };
 

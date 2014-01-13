@@ -86,7 +86,8 @@ class Swipe.ViewObject
   # Unbinds all keyboard shortcuts for the given view
   @unbindKeyboardShortcuts = (object)->
     return false unless @keyboardShortcuts[this.name]
-    $.each @keyboardShortcuts[this.name], (i,sc)-> Mousetrap.unbind sc.shortcut
+    $.each @keyboardShortcuts[this.name], (i,sc)-> 
+      Mousetrap.unbind sc.shortcut, (sc.options.type || 'keydown')
 
   # Stores all behaviours for the view
   @behaviours = {}
